@@ -1,11 +1,9 @@
 
 function init() {
 
-
-
-
+    var selectedYear = "";
     //reads in age csv
-    d3.csv("AGE_Group2.csv").then(function(data) {
+    d3.csv("AGE_Group.csv").then(function(data) {
         //changes string to number values
         data.forEach(d => {
             d.OBS_VALUE = +d.OBS_VALUE;; 
@@ -109,13 +107,33 @@ function init() {
             .text("Age Groups") ;
 
 
-        d3.select("#year").on("change", function() {
-            selectedYear = this.value;
-            
-            dataset.filter(d => d.TIME_PERIOD === selectedYear); 
-        
-
-        })
+            d3.select("#year").on("change", function() {
+                selectedYear = this.value;
+                var filteredData = dataset.filter(d => d.TIME_PERIOD === selectedYear);
+                
+                // Update the existing bars with the new data
+                var bars = svg.selectAll("rect")
+                    .data(filteredData);
+                
+                bars.enter()
+                    .append("rect")
+                    .merge(bars)
+                    .transition()
+                    .duration(500) 
+                    .attr("y", d => yScale(d.age))
+                    .attr("width", d => xScale(d.OBS_VALUE))
+                    .attr("height", yScale.bandwidth())
+                    .attr("fill", "red");
+                
+                bars.exit().remove(); // Remove any bars that are no longer needed
+                
+                // Update the existing axes
+                svg.select(".x-axis")
+                    .call(xAxis);
+                
+                svg.select(".y-axis")
+                    .call(yAxis);
+            });
 
     }
 
