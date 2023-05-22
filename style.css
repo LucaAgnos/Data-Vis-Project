@@ -63,6 +63,11 @@ div{
     
   }
   
+  #center {
+    margin-left: auto;
+    margin-right: auto;
+    
+  }
   
   .centerpic {
     display: block;
@@ -85,7 +90,7 @@ div{
   
   p {
       text-align:center;
-      font-size: 100%
+      font-size: 20px;
   }
   
   a {
@@ -95,9 +100,10 @@ div{
   
   footer {
     background-color: #0c1461;
-    padding: 20px;
-    width: 100%;
+    padding: 10px;
+    width: auto;
     margin-top: auto;
+    font-size: 20px;
     }
   
   h1 {
@@ -184,7 +190,7 @@ div{
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 17px;
+    font-size: 20px;
   }
   
   /* change the color of the link when hovering over it */
