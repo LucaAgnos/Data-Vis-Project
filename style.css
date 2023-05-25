@@ -10,6 +10,13 @@
   pointer-events: none;
 }
 
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1px;
+}
+
 
 .legend {
   background-color: white;
@@ -197,6 +204,16 @@ div{
   .navbar a:hover {
     background-color: #ddd;
     color: black;
+  }
+
+  .line {
+    fill: none;
+    stroke: red;
+    stroke-width: 5px;  
+  }
+  
+  .axis text {
+    font-size: 12px;
   }
 
 

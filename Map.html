@@ -17,32 +17,36 @@
 <body>
     <h1>Migration in Europe</h1>
 
-         <div class="navbar">
-    <a href="introduction.html"> Introduction</a> 
-    <a href="Map.html"> Map of Europe</a> 
-    <a href="Bar.html"> Age groups</a>
-    <a href="conclusion.html"> Conclusion</a> 
-    <a href="references.html"> References</a> 
-    </div>
+    <div class="navbar">
+      <a href="introduction.html"> Introduction</a> 
+      <a href="Map.html"> Map of Europe</a> 
+      <a href="bar.html">Germany Gender and Age Breakdown</a>
+      <a href="line.html">Germany Population against Immigrants</a>
+      <a href="conclusion.html"> Conclusion</a> 
+      <a href="references.html"> References</a> 
+      </div>
 
 
     <h3>Analysis</h3>
-    <p>The objective of this analysis is to evaluate the migration rates in European countries from 2012 to 2021. 
+    <p>
+      The objective of this analysis is to evaluate the migration rates in European countries from 2012 to 2021. 
       The data used for this analysis was collected from Eurostat, which provides information on migration for 35 European countries. 
       However, it is important to acknowledge some limitations, such as overlapping borders and missing data for certain countries.
+      
        </p><p>
-        To visualize the migration data, a map is provided below, highlighting the migration numbers for each of the European country provided. 
-        This visualisation helps identify countries with the highest migration rates.
-        Upon analysing the migration rates on the European countries, it becomes evident that Germany, Spain, France, Italy, and the United Kingdom consistently had notable migration numbers. 
-        However, Germany stood out as the country with the highest immigration rate throughout the analysed period, consistently surpassing 600,000 immigrants annually. 
-        In comparison, the other countries mentioned barely exceeded 500,000 immigrants.
+        The visualization of migration data through a map helped identify countries with notable migration rates, revealing that Germany, Spain, France, Italy, and the United Kingdom consistently had significant migration numbers. 
+        Germany stood out as the country with the highest immigration rate, consistently surpassing 600,000 immigrants annually, while the other mentioned countries barely exceeded 500,000 immigrants.
+      </p><p>
+        Furthermore, it is important to recognize the broader context of migration in Europe, particularly the "Europe's Refugee Crisis" or "Migrant Crisis" during the past decade. 
+        This period was marked by civil wars, political persecution, the need for relocation for work and education, fleeing impoverishment, political unrest, gang violence, and natural disasters in the surrounding regions.
     </p><p>
-       So how does the Local Purchasing Power come in, well it establishes that most people living Singapore can cover their costs and have more spending opportunities. So while food and rent may be higher than other countries, their wages allow them to cover it. 
-       Another small index within the Local Purchasing Power is the Consumer Price Index which measures the change in the price basket of goods and services consumed by households. These can be the expenses that the day to day activities a Singapore citizen does. 
-       Singapore's CPI was 112 in February which is quite high. A high CPI usually leads to higher inflation rates which could lead to the Local Purchasing Power to decrease, leading to less spending chances.
-    <br>
-    Examining the overall trends in European migration rates from 2012 to 2021, several factors played a role. Economic conditions, political events, and policy changes can all influence migration patterns. Additionally, the COVID-19 pandemic had a substantial impact on migration rates. Germany, like other countries, experienced a decline in migration around 2020, likely due to the pandemic and associated restrictions.
-    The analysis reveals that Germany consistently had the highest immigration rates among European countries from 2012 to 2021. While Spain, France, Italy, and the United Kingdom also had significant migration numbers, they did not reach the levels observed in Germany. COVID-19 pandemic has played a role in shaping European migration trends during the analysed period. Understanding these migration patterns and their implications can assist policymakers in formulating effective strategies to address the economic, social, and demographic consequences of immigration.
+      The COVID-19 pandemic had a significant impact on migration rates, including those in European countries.
+      In 2020, countries like Germany, Spain, France, Italy, and the United Kingdom experienced a decline in migration due to the pandemic and associated travel restrictions. 
+      The global health crisis disrupted international mobility and influenced migration patterns across the continent.
+    </p><p>
+      In conclusion, this analysis sheds light on the migration trends in European countries from 2012 to 2021. 
+      Understanding these patterns is crucial, especially considering the impact of the COVID-19 pandemic. 
+      Policymakers can utilize this knowledge to develop effective strategies that address the economic, social, and demographic consequences of immigration, ultimately shaping inclusive societies that benefit both the receiving countries and the migrants themselves.
     </p>
 
     <div>
@@ -62,7 +66,6 @@
     </div>
   <br>
     <div id="legend-container" class="center"></div>
-    <div id="tooltip" style="display:none"></div>
     <div id="map-container">
       <svg id="map"></svg>
     </div>
@@ -130,14 +133,23 @@ d3.json("europe.json").then(json => {
       .style("stroke", "#ccc")
       .style("stroke-width", 1.5)
       // Add a mouseover event to show a tooltip with country name and data value
-      .on("mouseover", function(event, d) {
-        d3.select(this).style("stroke", "black");
-        var valueObj = data.find(obj => obj.geo == d.properties.ISO2);
-        var value = valueObj ? valueObj.value : "N/A";
-        d3.select("#tooltip")
-          .style("display", "block")
-          .html(`<strong>${d.properties.NAME}</strong><br/>Immigration: ${value}`);
-      })
+    .on("mouseover", function(event, d) {
+    d3.select(this).style("stroke", "black");
+    var valueObj = data.find(obj => obj.geo == d.properties.ISO2);
+    var value = valueObj ? valueObj.value : "N/A";
+
+    // Get the mouse coordinates
+    var mouseX = event.pageX;
+    var mouseY = event.pageY;
+
+    // Position the tooltip above the mouse coordinates
+    d3.select("#tooltip")
+        .style("display", "block")
+        .style("left", mouseX + "px")
+        .style("top", mouseY - 20 + "px")
+        .html(`<strong>${d.properties.NAME}</strong><br/>Immigration: ${value}`);
+})
+
       // Add a mouseout event to hide the tooltip
       .on("mouseout", function() {
         d3.select(this).style("stroke", "#ccc");
@@ -288,6 +300,8 @@ legendTexts.enter()
 });
 
             </script>
+
+<div id="tooltip" style="display:none"></div>
 
         <footer>COS30045 Data Visualisation </footer>
 </body>
