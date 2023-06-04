@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="description"	content="Visualisation Assignment"/>
+	<meta name="keywords"		  content="HTML, CSS"/>
+	<meta name="author"			  content="Oliver Harris"/>
+
+    <link rel="stylesheet" href="style/style.css">
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="script/bar.js"></script>
+    
+
+	<title>Migration</title>
+
+</head>
+<body>
+    <h1>Migration in Europe</h1>
+
+    <div class="navbar">
+      <a href="introduction.html"> Introduction</a> 
+      <a href="map.html"> Map of Europe</a> 
+      <a href="bar.html">Germany Gender and Age Breakdown</a>
+      <a href="line.html">Germany Population against Immigrants</a>
+      <a href="net.html">Migration Rate Germany</a>
+      <a href="conclusion.html"> Conclusion</a> 
+      <a href="references.html"> References</a> 
+    </div>
+    <h3>Analysis</h3>
+          <P> 
+            With Germany being one of the most migrated countries in the world it was worth taking a closer look into the ages and gender of the people imigrating to Germany. 
+            The first feature we notice is that their is not a significant difference between imigrants based on gender. Males imigrating always seem to be slightly higher
+            but not by a significant margin. The second apparent feature is people between the ages of 20 and 34 are the most common imigratns.This makes sense as the the reason for migration for many is for better oppertunities. 
+            Most of these better oppertunites are for jobs and education. Germany is in constant need for skilled labour and activly shape their policies to try appeal to those people.
+            Germany offers world class education and the rate of international students is increasing with an increase of 22.7% between 2016 and 2022.
+            This can be seen below as you move from 2012 to the years from 2016 onwards their is a significant increase and a stable increase unlike what happend in 
+            2015 where an anomilouse event took place increasing the numbers drastically.
+            <br>
+            <br>
+            In 2015 the rate of assylum seekers that had been increasing since 2011 drastically increased. Germany ended up with more refugee's due to govermeant policiy change wehre they
+            decided to stop enforcing the EU law known as the Dublin regulation which requried reffugees to file assylum claims at the first EU country they set foot in. When Germany stopped enforcing
+            this and since many of the reffugees where already in Hungry living in horrible conditions they left and moved on to Germany. 
+            Hungry also eventurly began providing busses to the Austrian border to help move the refugees out of their county.
+            The reason they suspenbded the DUblin regulation is the Federal Office of Migration and Refugees was so overwhelmed they could no longer deport
+            refugees back to Hungry. 
+            
+          </P>
+          <br>
+          
+          <br>
+
+          <div>
+            <label for="year">Select year:</label>
+            <select id="year">
+              <option value="2012">2012</option>
+              <option value="2013">2013</option>
+              <option value="2014">2014</option>
+              <option value="2015">2015</option>
+              <option value="2016">2016</option>
+              <option value="2017">2017</option>
+              <option value="2018">2018</option>
+              <option value="2019">2019</option>
+              <option value="2020">2020</option>
+              <option value="2021">2021</option>
+            </select>
+          </div>
+
+        <p ID="chart"></p>
+        <div id="tooltip"></div>
+        <figure>
+          <p> Hover over a bar to get the exact value</p>
+          <figcaption><a href="https://ec.europa.eu/eurostat/databrowser/view/MIGR_IMM8__custom_6422485/default/line?lang=en">Eurostat Germany Gender and Age Breakdown</a></figcaption>
+          </figure>
+    
+<footer>COS30045 Data Visualisation Name: Luca Agnos Student ID: 104005588, Name Oliver Harris Student ID: 101626533 </footer>
+</body>
+</html>

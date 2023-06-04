@@ -1,0 +1,252 @@
+/* CSS Document */
+
+#tooltip {
+  position: absolute;
+  padding: 10px;
+  font-size: 14px;
+  color: black;
+  background-color: white;
+  border: 1px solid black;
+  pointer-events: none;
+  opacity: 0;
+}
+
+#chart {
+   background-color: #403f3f;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1px;
+}
+
+#chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #403f3f;
+}
+
+.legend {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.legend-title {
+  font-weight: bold;
+}
+
+.legend-rect {
+  stroke: #ccc;
+}
+
+h1 {
+  background-color: #403f3f;
+}
+option {
+  font-size: 16px;
+}
+
+select {
+  font-size: 16px;
+  width: 200px;
+  height: 50px;
+}
+
+#map-container {
+  display: center;
+  background-color: #403f3f;
+  justify-content: center;
+}
+
+#legend-container {
+  background-color: #403f3f;
+  display: center;
+  justify-content: center;
+}
+
+#map {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+figure {
+  flex-flow: column;
+  padding: 5px;
+  margin: auto;
+}
+
+figcaption {
+  background-color: #222;
+  font: italic smaller sans-serif;
+  padding: 3px;
+  text-align: center;
+}
+
+div{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    
+  }
+  
+  #center {
+    margin-left: auto;
+    margin-right: auto;
+    
+  }
+  
+  .centerpic {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+  
+  
+  svg {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  body {
+    margin: auto;
+    background-color: rgb(120, 120, 120);
+    color: white;
+  }
+  
+  p {
+      text-align:center;
+      font-size: 20px;
+  }
+  
+  a {
+    color: white;
+    text-align:center;
+  }
+  
+  footer {
+    background-color: #242425;
+    padding: 10px;
+    width: auto;
+    margin-top: auto;
+    font-size: 20px;
+    }
+  
+  h1 {
+      text-align:center;
+    list-style-type: none;
+    overflow: hidden;
+  }
+  
+  h2 {
+      text-align:center;
+  }
+  
+  h3 {
+      text-align:center;
+  }
+  
+  h4 {
+      text-align:center;
+  }
+  
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  li a:hover {
+    background-color: #111;
+  }
+  
+  form {
+      width: 300px;
+      margin: 0 auto;
+  }
+  
+  label {
+      text-align:center;
+      font-size: 120%
+  }
+  
+
+  .arc text {
+    font: 10px sans-serif;
+    text-anchor: middle;
+  }
+  
+  .arc path {
+    stroke: #fff;
+  }
+  
+  .title {
+    fill: teal;
+    font-weight: bold;
+  }
+  /* style for the navigation bar */
+  .navbar {
+    display: flex;
+    justify-content: center; /* center the links horizontally */
+    background-color: #484848;
+    overflow: hidden;
+  }
+  
+  /* style for the links inside the navigation bar */
+  .navbar a {
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 20px;
+  }
+
+  
+  /* change the color of the link when hovering over it */
+  .navbar a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+/* CSS Styling for the chart */
+.line {
+  fill: none;
+  stroke-width: 5px;
+}
+
+.line.OBS_VALUE {
+  stroke: yellow;
+}
+
+.line.OBS_VALUE_IM {
+  stroke: green;
+}
+  
+  .axis text {
+    font-size: 12px;
+  }
+
+
+  

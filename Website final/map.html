@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="description"	content="Visualisation Assignment"/>
+	<meta name="keywords"		  content="HTML, CSS"/>
+	<meta name="author"			  content="Luca Agnos"/>
+
+    <link rel="stylesheet" href="style/style.css">
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+	<title>Migration</title>
+
+</head>
+<body>
+    <h1>Migration in Europe</h1>
+
+    <div class="navbar">
+      <a href="introduction.html"> Introduction</a> 
+      <a href="map.html"> Map of Europe</a> 
+      <a href="bar.html">Germany Gender and Age Breakdown</a>
+      <a href="line.html">Germany Population against Immigrants</a>
+      <a href="net.html">Migration Rate Germany</a>
+      <a href="conclusion.html"> Conclusion</a> 
+      <a href="references.html"> References</a> 
+      </div>
+
+
+    <h3>Analysis</h3>
+    <p>
+      The objective of this analysis is to evaluate the migration rates in European countries from 2012 to 2021. 
+      The data used for this analysis was collected from Eurostat, which provides information on migration for 35 European countries. 
+      However, it is important to acknowledge some limitations, such as overlapping borders and missing data for certain countries.
+      
+       </p><p>
+        The visualization of migration data through a map helped identify countries with notable migration rates, revealing that Germany, Spain, France, Italy, and the United Kingdom consistently had significant migration numbers. 
+        Germany stood out as the country with the highest immigration rate, consistently surpassing 600,000 immigrants annually, while the other mentioned countries barely exceeded 500,000 immigrants.
+      </p><p>
+        Furthermore, it is important to recognize the broader context of migration in Europe, particularly the "Europe's Refugee Crisis" or "Migrant Crisis" during the past decade. 
+        This period was marked by civil wars, political persecution, the need for relocation for work and education, fleeing impoverishment, political unrest, gang violence, and natural disasters in the surrounding regions.
+    </p><p>
+      The COVID-19 pandemic had a significant impact on migration rates, including those in European countries.
+      In 2020, countries like Germany, Spain, France, Italy, and the United Kingdom experienced a decline in migration due to the pandemic and associated travel restrictions. 
+      The global health crisis disrupted international mobility and influenced migration patterns across the continent.
+    </p><p>
+      In conclusion, this analysis sheds light on the migration trends in European countries from 2012 to 2021. 
+      Understanding these patterns is crucial, especially considering the impact of the COVID-19 pandemic. 
+      Policymakers can utilize this knowledge to develop effective strategies that address the economic, social, and demographic consequences of immigration, ultimately shaping inclusive societies that benefit both the receiving countries and the migrants themselves.
+    </p>
+
+    <div>
+      <label for="year">Select year:</label>
+      <select id="year">
+        <option value="2012">2012</option>
+        <option value="2013">2013</option>
+        <option value="2014">2014</option>
+        <option value="2015">2015</option>
+        <option value="2016">2016</option>
+        <option value="2017">2017</option>
+        <option value="2018">2018</option>
+        <option value="2019">2019</option>
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+      </select>
+    </div>
+  <br>
+  <h1>Map of Europe</h1>
+    <div id="legend-container" class="center"></div>
+    <div id="map-container">
+      <svg id="map"></svg>
+    </div>
+         <script>
+// Set the width and height of the SVG container
+var width = 960;
+var height = 960;
+
+// Create a Mercator projection with a centered location and scale
+var projection = d3.geoMercator()
+  .center([10, 50])
+  .translate([width / 2, height / 2])
+  .scale(600);
+
+// Create a path generator using the projection
+var path = d3.geoPath()
+  .projection(projection);
+
+// Create an SVG container in the "map-container" div with the specified width and height
+var svg = d3.select("#map-container")
+  .append("svg")
+  .attr("width", width)
+  .attr("height", height)
+  .style("display", "block")
+  .style("margin", "0 auto");
+
+  svg.append("text")
+  .attr("class", "title")
+  .attr("x", width / 2)
+  .attr("y", -20) 
+  .attr("text-anchor", "middle")
+  .style("fill", "white")
+  .text("Emigration and Immigration Data"); 
+
+
+// Define a color scale
+var color = d3.scaleSequential(d3.interpolateGreens);
+
+// Load the Europe GeoJSON file and the cleaned CSV data
+Promise.all([
+  d3.json("europe.json"),
+  d3.csv("data/imigration_europe.csv")
+]).then(([json, csvData]) => {
+  // Set the initial selected year
+  var selectedYear = "2012";
+
+  // Filter the data to only include the selected year
+  var filteredData = csvData.filter(d => d.TIME_PERIOD === selectedYear);
+
+  // Group the data by country code
+  var dataMap = d3.group(filteredData, d => d.geo);
+
+  // Convert the dataMap to an array of objects
+  var data = Array.from(dataMap, ([geo, values]) => ({
+    geo: geo,
+    value: +values[0].value
+  }));
+
+  // Set the color scale domain based on the data values
+  color.domain(d3.extent(data, d => d.value));
+
+  // Bind the GeoJSON features to path elements and set their fill color based on the data
+  svg.selectAll("path")
+    .data(json.features)
+    .enter()
+    .append("path")
+    .attr("d", path)
+    .style("fill", function(d) {
+      var valueObj = data.find(obj => obj.geo === d.properties.ISO2);
+      var value = valueObj ? valueObj.value : 0;
+      if (value) {
+        return color(value);
+      } else {
+        return "#ccc";
+      }
+    })
+    .style("stroke", "#ccc")
+    .style("stroke-width", 1.5)
+    // Add a mouseover event to show a tooltip with country name and data value
+    .on("mouseover", function(event, d) {
+      d3.select(this).style("stroke", "black");
+      var valueObj = data.find(obj => obj.geo === d.properties.ISO2);
+      var value = valueObj ? valueObj.value : "N/A";
+
+      // Get the mouse coordinates
+      var mouseX = event.pageX;
+      var mouseY = event.pageY;
+
+      // Position the tooltip above the mouse coordinates
+      d3.select("#tooltip")
+        .style("display", "block")
+        .style("left", mouseX + "px")
+        .style("top", mouseY - 20 + "px")
+        .style("opacity", 1)
+        .style("display", "block")
+        .style("margin", "0 auto")
+        .html(`<strong>${d.properties.NAME}</strong><br/>Immigration: ${value}`);
+    })
+    // Add a mouseout event to hide the tooltip
+    .on("mouseout", function() {
+      d3.select(this).style("stroke", "#ccc");
+      d3.select("#tooltip")
+        .style("display", "none")
+        .style("opacity", 0);
+    });
+  // Create a tooltip element
+  var tooltip = d3.select("#map-container")
+    .append("div")
+    .attr("class", "tooltip");
+
+  // Set the selected year
+  selectedYear = this.value;
+
+  // Define the color legend data
+  var legendData = color.ticks(6);
+
+  // Create a color legend SVG container with the specified width and height
+  var legendWidth = 1300;
+  var legendHeight = 50;
+  var legendSvg = d3.select("#legend-container")
+    .append("svg")
+    .attr("width", legendWidth)
+    .attr("height", legendHeight)
+    .style("display", "block")
+    .style("margin", "0 auto");
+
+  // Create a color legend group and position it
+  var legend = legendSvg.append("g")
+    .attr("transform", "translate(20,20)");
+
+  // Create color legend rectangles
+  legend.selectAll("rect")
+    .data(legendData)
+    .enter()
+    .append("rect")
+    .attr("x", function(d, i) { return i * (legendWidth / legendData.length); })
+    .attr("y", 0)
+    .attr("width", legendWidth / legendData.length)
+    .attr("height", legendHeight - 20)
+    .attr("fill", function(d) { return color(d); });
+
+  // Create color legend text labels
+  legend.selectAll("text")
+    .data(legendData)
+    .enter()
+    .append("text")
+    .attr("x", function(d, i) { return i * (legendWidth / legendData.length) + 5; })
+    .attr("y", legendHeight - 30)
+    .attr("text-anchor", "start")
+    .attr("dy", ".35em")
+    .style("font-size", "16px")
+    .text(function(d, i) {
+      if (i === 0) {
+        return "<" + d;
+      } else if (i === legendData.length - 1) {
+        return ">" + d;
+      } else {
+        return d + " - " + legendData[i + 1];
+      }
+    });
+
+  var legendTitle = legendSvg.append("text")
+    .attr("x", legendWidth / 2)
+    .attr("y", 15)
+    .attr("text-anchor", "middle")
+    .style("font-size", "20px")
+    .attr("fill", "white")
+    .text("Immigration Legend for 2012");
+
+  d3.select("#year").on("change", function() {
+    // When the year selection changes:
+    selectedYear = this.value;
+
+    filteredData = csvData.filter(d => d.TIME_PERIOD === selectedYear);
+
+    dataMap = d3.group(filteredData, d => d.geo);
+    // Filter the data based on the selected year and group by country
+    data = Array.from(dataMap, ([geo, values]) => ({
+      geo: geo,
+      value: +values[0].value
+    }));
+    // Create a new array with the filtered data values for each country
+
+    color.domain(d3.extent(data, d => d.value));
+    // Update the color scale domain based on the new data values
+
+    // Update the legend data based on the new color scale domain
+    legendData = color.ticks(6);
+
+    // Re-bind the data to the legend elements
+    var legendRects = legend.selectAll("rect")
+      .data(legendData);
+
+    var legendTexts = legend.selectAll("text")
+      .data(legendData);
+
+    // Remove any old legend elements that are no longer needed
+    legendRects.exit().remove();
+    legendTexts.exit().remove();
+
+    // Create new legend elements for any new data points
+    legendRects.enter()
+      .append("rect")
+      .merge(legendRects)
+      .attr("x", function(d, i) { return i * (legendWidth / legendData.length); })
+      .attr("y", 0)
+      .attr("width", legendWidth / legendData.length)
+      .attr("height", legendHeight - 20)
+      .attr("fill", function(d) { return color(d); });
+
+    legendTexts.enter()
+      .append("text")
+      .merge(legendTexts)
+      .attr("x", function(d, i) { return i * (legendWidth / legendData.length) + 5; })
+      .attr("y", legendHeight - 30)
+      .attr("text-anchor", "start")
+      .attr("dy", ".35em")
+      .style("font-size", "18px")
+      .text(function(d, i) {
+        if (i === 0) {
+          return "<" + d;
+        } else if (i === legendData.length - 1) {
+          return ">" + d;
+        } else {
+          return d + " - " + legendData[i + 1];
+        }
+      });
+
+    svg.selectAll("path")
+      .data(json.features)
+      .transition()
+      .duration(500)
+      .style("fill", function(d) {
+        const valueObj = data.find(obj => obj.geo === d.properties.ISO2);
+        const value = valueObj ? valueObj.value : 0;
+        if (value) {
+          return color(value);
+        } else {
+          return "#ccc";
+        }
+        // Update the fill color of each country based on its new value
+      });
+
+    // Update the legend title text
+    legendTitle.text(
+      "Immigration Legend for " + selectedYear);
+  });
+});
+            </script>
+
+<div id="tooltip" style="display:none"></div>
+<figure>
+  <figcaption><a href="https://ec.europa.eu/eurostat/databrowser/view/migr_imm8/default/table?lang=en" target="_blank">Eurostat Immigration by age and sex</a>
+  </figcaption>
+</figure>
+
+        <footer>COS30045 Data Visualisation Name: Luca Agnos Student ID: 104005588, Name Oliver Harris Student ID: 101626533  </footer>
+</body>
+</html>
